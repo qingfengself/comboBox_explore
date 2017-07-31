@@ -16,6 +16,7 @@ public:
     ~MainWindow();
 private slots:
     void on_pB_clear_clicked();
+    void show_comboBoxContextMenu(const QPoint&);
 
 private:
     void initComboBox();

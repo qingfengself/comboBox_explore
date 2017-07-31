@@ -44,6 +44,7 @@ public:
         cBBox_1 = new QComboBox(centralWidget);
         cBBox_1->setObjectName(QStringLiteral("cBBox_1"));
         cBBox_1->setGeometry(QRect(8, 10, 71, 22));
+        cBBox_1->setContextMenuPolicy(Qt::CustomContextMenu);
         pB_clear = new QPushButton(centralWidget);
         pB_clear->setObjectName(QStringLiteral("pB_clear"));
         pB_clear->setGeometry(QRect(90, 10, 75, 23));
