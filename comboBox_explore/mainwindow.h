@@ -20,6 +20,7 @@ private slots:
 
 private:
     void initComboBox();
+    void initTreeWidget();
 
 private:
     Ui::MainWindow *ui;

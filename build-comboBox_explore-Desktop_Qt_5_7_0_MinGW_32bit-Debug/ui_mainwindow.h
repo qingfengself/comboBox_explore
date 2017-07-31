@@ -20,6 +20,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -30,6 +31,7 @@ public:
     QWidget *centralWidget;
     QComboBox *cBBox_1;
     QPushButton *pB_clear;
+    QTreeWidget *treeW_CmdList;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -48,6 +50,12 @@ public:
         pB_clear = new QPushButton(centralWidget);
         pB_clear->setObjectName(QStringLiteral("pB_clear"));
         pB_clear->setGeometry(QRect(90, 10, 75, 23));
+        treeW_CmdList = new QTreeWidget(centralWidget);
+        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
+        __qtreewidgetitem->setText(0, QStringLiteral("1"));
+        treeW_CmdList->setHeaderItem(__qtreewidgetitem);
+        treeW_CmdList->setObjectName(QStringLiteral("treeW_CmdList"));
+        treeW_CmdList->setGeometry(QRect(10, 40, 381, 191));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));

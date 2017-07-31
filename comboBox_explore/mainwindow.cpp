@@ -9,6 +9,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     /* init comboBox */
     initComboBox();
+
+    /* init tree widget */
+    initTreeWidget();
 }
 
 MainWindow::~MainWindow()
@@ -40,21 +43,18 @@ void MainWindow::show_comboBoxContextMenu(const QPoint&)
     QMenu *menu = new QMenu(ui->cBBox_1);
     menu->addAction(new QAction(tr("edit")));
     menu->exec(QCursor::pos());
+    delete menu;
 }
 
-#if 0
-void MainWindow::customContextMenuRequested(const QPoint &pos)
+void MainWindow::initTreeWidget()
 {
-    QCursor* cursor = new QCursor();
-
-    if (ui->cBBox_1->hasFocus()) {
-         QMenu *menu = new QMenu(ui->cBBox_1);
-        menu->addAction(new QAction(tr("edit")));
-        menu->exec(cursor->pos());
-    } else {
-       // menu->addAction(new QAction(tr("right menu")));
-    }
-
-    //delete menu;
+    ui->treeW_CmdList->setColumnCount(3);
+    QList<QTreeWidgetItem *> items;
+    for (int i = 0; i < 3; ++i)
+          items.append(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("item: %1").arg(i))));
+    ui->treeW_CmdList->insertTopLevelItems(0, items);
+    for (int i = 3; i < 6; ++i)
+          items.append(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("item: %1").arg(i))));
+    ui->treeW_CmdList->insertTopLevelItems(2, items);
+    ui->treeW_CmdList->setHeaderLabel(QString("cmd"));
 }
-#endif
