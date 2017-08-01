@@ -32,6 +32,9 @@ public:
     QComboBox *cBBox_1;
     QPushButton *pB_clear;
     QTreeWidget *treeW_CmdList;
+    QPushButton *pushBtn_add;
+    QPushButton *pushBtn_delete;
+    QPushButton *pushBtn_edit;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -40,7 +43,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(400, 300);
+        MainWindow->resize(502, 300);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         cBBox_1 = new QComboBox(centralWidget);
@@ -56,10 +59,19 @@ public:
         treeW_CmdList->setHeaderItem(__qtreewidgetitem);
         treeW_CmdList->setObjectName(QStringLiteral("treeW_CmdList"));
         treeW_CmdList->setGeometry(QRect(10, 40, 381, 191));
+        pushBtn_add = new QPushButton(centralWidget);
+        pushBtn_add->setObjectName(QStringLiteral("pushBtn_add"));
+        pushBtn_add->setGeometry(QRect(400, 60, 75, 23));
+        pushBtn_delete = new QPushButton(centralWidget);
+        pushBtn_delete->setObjectName(QStringLiteral("pushBtn_delete"));
+        pushBtn_delete->setGeometry(QRect(400, 90, 75, 23));
+        pushBtn_edit = new QPushButton(centralWidget);
+        pushBtn_edit->setObjectName(QStringLiteral("pushBtn_edit"));
+        pushBtn_edit->setGeometry(QRect(400, 120, 75, 23));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 400, 23));
+        menuBar->setGeometry(QRect(0, 0, 502, 23));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -77,6 +89,9 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         pB_clear->setText(QApplication::translate("MainWindow", "clear", 0));
+        pushBtn_add->setText(QApplication::translate("MainWindow", "add", 0));
+        pushBtn_delete->setText(QApplication::translate("MainWindow", "delete", 0));
+        pushBtn_edit->setText(QApplication::translate("MainWindow", "edit", 0));
     } // retranslateUi
 
 };
