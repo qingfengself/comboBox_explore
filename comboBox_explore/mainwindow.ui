@@ -59,20 +59,20 @@
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>60</y>
+      <y>100</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>add</string>
+     <string>add node</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushBtn_delete">
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>90</y>
+      <y>130</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -81,17 +81,17 @@
      <string>delete</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushBtn_edit">
+   <widget class="QPushButton" name="pushBtn_addRoot">
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>120</y>
+      <y>70</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>edit</string>
+     <string>add root</string>
     </property>
    </widget>
   </widget>

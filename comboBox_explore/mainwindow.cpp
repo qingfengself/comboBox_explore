@@ -56,6 +56,7 @@ void MainWindow::initTreeWidget()
     lastClickedItem = NULL;
     /* tree widget */
     connect(ui->treeW_CmdList, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(on_treeWidget_clicked(QTreeWidgetItem *, int)));
+    connect(ui->treeW_CmdList, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(on_treeWidget_doubleClicked(QTreeWidgetItem *, int)));
 #if 0
     QList<QTreeWidgetItem *> items;
     for (int i = 0; i < 3; ++i)
@@ -74,6 +75,11 @@ void MainWindow::on_treeWidget_clicked(QTreeWidgetItem * item, int colum)
     } else {
         lastClickedItem = item;
     }
+}
+
+void MainWindow::on_treeWidget_doubleClicked(QTreeWidgetItem *item, int colum)
+{
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
 }
 
 void MainWindow::on_pushBtn_add_clicked()
@@ -107,4 +113,11 @@ void MainWindow::on_pushBtn_delete_clicked()
        delete lastClickedItem;
        lastClickedItem = NULL;
     }
+}
+
+void MainWindow::on_pushBtn_addRoot_clicked()
+{
+    QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->treeW_CmdList);
+    newItem->setText(0, tr("item"));
+    newItem->setText(1, tr("0x0"));
 }
