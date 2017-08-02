@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTreeWidgetItem>
+#include <QSettings>
 
 namespace Ui {
 class MainWindow;
@@ -27,9 +28,12 @@ private slots:
 
     void on_pushBtn_addRoot_clicked();
 
+    void on_pushBtn_save_clicked();
+
 private:
     void initComboBox();
     void initTreeWidget();
+    void saveSettings();
 
 private:
     Ui::MainWindow *ui;

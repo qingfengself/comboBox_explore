@@ -121,3 +121,20 @@ void MainWindow::on_pushBtn_addRoot_clicked()
     newItem->setText(0, tr("item"));
     newItem->setText(1, tr("0x0"));
 }
+
+void MainWindow::saveSettings()
+{
+    QSettings settings("./config/settins.txt", QSettings::IniFormat);
+    settings.beginGroup(ui->treeW_CmdList->objectName());
+
+    settings.setValue(QString("header1"), 6);
+
+    settings.endGroup();
+
+    qDebug()<< "save settings";
+}
+
+void MainWindow::on_pushBtn_save_clicked()
+{
+    saveSettings();
+}
