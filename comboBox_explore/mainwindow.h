@@ -30,10 +30,16 @@ private slots:
 
     void on_pushBtn_save_clicked();
 
+    void on_pushBtn_load_clicked();
+
 private:
     void initComboBox();
     void initTreeWidget();
     void saveSettings();
+    void saveChildSettings(QSettings &settings, QTreeWidgetItemIterator &it, QString head);
+    void loadSettings();
+    void loadChildSettings(QSettings &settings, int size, QString head, QTreeWidgetItem* item);
+
 
 private:
     Ui::MainWindow *ui;

@@ -57,6 +57,9 @@ void MainWindow::initTreeWidget()
     /* tree widget */
     connect(ui->treeW_CmdList, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(on_treeWidget_clicked(QTreeWidgetItem *, int)));
     connect(ui->treeW_CmdList, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(on_treeWidget_doubleClicked(QTreeWidgetItem *, int)));
+
+    /* load items */
+    loadSettings();
 #if 0
     QList<QTreeWidgetItem *> items;
     for (int i = 0; i < 3; ++i)
@@ -75,11 +78,14 @@ void MainWindow::on_treeWidget_clicked(QTreeWidgetItem * item, int colum)
     } else {
         lastClickedItem = item;
     }
+
+    qDebug() <<colum;
 }
 
 void MainWindow::on_treeWidget_doubleClicked(QTreeWidgetItem *item, int colum)
 {
     item->setFlags(item->flags() | Qt::ItemIsEditable);
+     qDebug() <<colum;
 }
 
 void MainWindow::on_pushBtn_add_clicked()
@@ -122,19 +128,120 @@ void MainWindow::on_pushBtn_addRoot_clicked()
     newItem->setText(1, tr("0x0"));
 }
 
+void MainWindow::saveChildSettings(QSettings &settings, QTreeWidgetItemIterator &it, QString head)
+{
+    int count = (*it)->childCount();
+    /* save parent */
+    settings.setValue(head + "_meaning", (*it)->text(0));
+    settings.setValue(head + "_value", (*it)->text(1));
+    for (int j=0; j<count; j++) {
+        ++it;
+        if ((*it)->childCount() != 0) {
+            saveChildSettings(settings, it, (head + "." + QString::number(j)));
+        } else {
+            settings.setValue(head + "." + QString::number(j) + "_meaning", (*it)->text(0));
+            settings.setValue(head + "." + QString::number(j)+"_value", (*it)->text(1));
+        }
+    }
+    return;
+}
 void MainWindow::saveSettings()
 {
+     QTreeWidgetItemIterator it0(ui->treeW_CmdList);
+     while (*it0) {
+         qDebug() << (*it0)->text(0);
+         it0++;
+     }
+
     QSettings settings("./config/settins.txt", QSettings::IniFormat);
+    settings.clear();
+
+    /* save settings */
     settings.beginGroup(ui->treeW_CmdList->objectName());
 
-    settings.setValue(QString("header1"), 6);
+    //QTreeWidgetItem* headeritem = ui->treeW_CmdList->headerItem();
+    QTreeWidgetItemIterator it(ui->treeW_CmdList);
+    int i = 1;
+    while (*it) {
+         /* not save items with no key*/
+        if ((*it)->text(0) == NULL ) {
+            it++;
+           continue;
+        }
 
+        if ((*it)->childCount() != 0) {
+            saveChildSettings(settings, it, ("item"+QString::number(i)));
+        } else {
+            settings.setValue("item"+QString::number(i) + "_meaning", (*it)->text(0));
+            settings.setValue("item"+QString::number(i) + "_value", (*it)->text(1));
+        }
+        ++it;
+        i++;
+    }
     settings.endGroup();
 
     qDebug()<< "save settings";
 }
 
+void MainWindow::loadChildSettings(QSettings &settings, int size, QString head, QTreeWidgetItem* item)
+{
+    for (int i=0; i<size; i++) {
+        QString itemMeaning = settings.value(head + "." + QString::number(i) + "_meaning").toString();
+        QString itemValue = settings.value(head + "." + QString::number(i) + "_value").toString();
+
+        if (itemMeaning == NULL) {
+            continue;
+        }
+
+        QTreeWidgetItem* newItem = new QTreeWidgetItem(item);
+        newItem->setText(0, itemMeaning);
+        newItem->setText(1, itemValue);
+
+        if (settings.value(head + "." + QString::number(i) +".0" + "_meaning", "").toString() != NULL) {
+            loadChildSettings(settings, size-i-1, (head + "." + QString::number(i)), newItem);
+        }
+    }
+}
+
+void MainWindow::loadSettings()
+{
+    static int first_in = 1;
+    QSettings settings("./config/settins.txt", QSettings::IniFormat);
+    ui->treeW_CmdList->clear();
+    settings.beginGroup(ui->treeW_CmdList->objectName());
+
+    QStringList list = settings.allKeys();
+
+    for (int i=0; i<list.size(); i++) {
+        QString itemMeaning = settings.value("item"+QString::number(i) + "_meaning").toString();
+        QString itemValue = settings.value("item"+QString::number(i) + "_value").toString();
+
+        if (itemMeaning == NULL) {
+            continue;
+        }
+
+        QTreeWidgetItem* newItem = new QTreeWidgetItem(ui->treeW_CmdList);
+        newItem->setText(0, itemMeaning);
+        newItem->setText(1, itemValue);
+
+        if (settings.value("item"+QString::number(i)+".0" + "_meaning", "").toString() != NULL) {
+            loadChildSettings(settings, list.size()-i-1, ("item"+QString::number(i)), newItem);
+        }
+    }
+
+    if (first_in == 1) {
+        first_in = 0;
+    }
+    settings.endGroup();
+    qDebug()<< "load settings";
+}
+
 void MainWindow::on_pushBtn_save_clicked()
 {
     saveSettings();
+}
+
+void MainWindow::on_pushBtn_load_clicked()
+{
+    loadSettings();
 }
